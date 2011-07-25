@@ -12,6 +12,10 @@
 
  #define SOCK SOCKET
  #define ADDRLEN int
+
+ #define SOCKETWOULDBLOCK WSAEWOULDBLOCK
+ #define SOCKETCONNRESET  WSAECONNRESET
+ #define LASTERROR() WSAGetLastError()
 #else
  #include <unistd.h>
  #include <netdb.h>
@@ -21,6 +25,11 @@
 
  #define SOCK int
  #define ADDRLEN socklen_t
+
+ #define SOCKETWOULDBLOCK EAGAIN
+// Is this right? TODO: find proper value for linux
+ #define SOCKETCONNRESET  10054L
+ #define LASTERROR() errno
 #endif
 
 // Network buffer length = 1 kB

@@ -7,8 +7,6 @@
 #include <boost/thread.hpp>
 #include <boost/date_time.hpp>
 
-// Big TODO for this file: make it linux compatible
-
 bool Session::Startup()
 {
     m_port = sConfig->GetIntValue(CONFIG_MAIN_PORT);
@@ -38,10 +36,15 @@ bool Session::Startup()
         return false;
     }
 
-    //TODO: implement switching to non-blocking mode for Linux
 #ifdef _WIN32
     u_long arg = 1;
     if (ioctlsocket(m_socket, FIONBIO, &arg) == SOCKET_ERROR)
+    {
+        sLog->ErrorOut("Failed to switch socket to non-blocking mode");
+    }
+#else
+    int oldFlag = fcntl(m_socket, F_GETFL, 0);
+    if (fcntl(m_socket, F_SETFL, oldFlag | O_NONBLOCK) == -1)
     {
         sLog->ErrorOut("Failed to switch socket to non-blocking mode");
     }
@@ -76,14 +79,14 @@ void Session::Worker()
             {
                 memset(buf,0,BUFFER_LEN);
                 result = recv(pClient->m_socket, buf, BUFFER_LEN, 0);
-                error = WSAGetLastError();
+                error = LASTERROR();
 
                 if (result > 0)
                 {
                     sLog->NetworkOut(pClient,"Received data, size: %u",result);
                     BuildPacket(buf,result);
                 }
-                else if (result == 0 || error == WSAECONNRESET)
+                else if (result == 0 || error == SOCKETCONNRESET)
                 {
                     sLog->NetworkOut(pClient,"Client disconnected");
                     itr = clientList.erase(itr);
@@ -91,7 +94,7 @@ void Session::Worker()
                 }
                 else
                 {
-                    if (error != WSAEWOULDBLOCK && error != 0)
+                    if (error != SOCKETWOULDBLOCK && error != 0)
                     {
                         //error
                         sLog->NetworkOut(pClient,"Unhandled socket error: %u",error);
@@ -133,14 +136,14 @@ void Session::Acceptor()
     while(1)
     {
         result = accept(m_socket, (sockaddr*)&pNew->m_sockInfo, &pNew->m_addrLen);
-        error = WSAGetLastError();
+        error = LASTERROR();
 
-        if (result == INVALID_SOCKET && error == WSAEWOULDBLOCK)
+        if (result == INVALID_SOCKET && error == SOCKETWOULDBLOCK)
         {
             //failed to accept
             //TODO: some error message
         }
-        else if (result == INVALID_SOCKET && error != WSAEWOULDBLOCK)
+        else if (result == INVALID_SOCKET && error != SOCKETWOULDBLOCK)
         {
             //invalid socket
             //TODO: some error message
