@@ -1,7 +1,12 @@
 #ifndef __SMARTPACKET_H_
 #define __SMARTPACKET_H_
 
+#include <iostream>
 #include <vector>
+
+#ifndef _WIN32
+ #include <string.h>
+#endif
 
 #include "Opcodes.h"
 

@@ -1,8 +1,6 @@
 #include <global.h>
 #include "Database.h"
 
-#include <mysql.h>
-
 void MainDB_Connector::Start(const char* cserver, const char* cusername, const char* cpassword, const char* cdatabase)
 {
     MySQL_DB_Connector::Start(cserver,cusername,cpassword,cdatabase);

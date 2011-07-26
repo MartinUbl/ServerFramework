@@ -71,9 +71,9 @@ void Application::run()
     boost::thread networkWorker(runSessionWorker);
     boost::thread networkAcceptor(runSessionAcceptor);
 
-    uint64 sw = clock();
+    uint64 sw = clock() / CLOCK_MOD;
     bool ready = false;
-    for (uint64 wait = sw; wait <= sw+5000; wait = clock())
+    for (uint64 wait = sw; wait <= sw+5000; wait = clock() / CLOCK_MOD)
     {
         ready = ThreadStatus.timer
             && ThreadStatus.sessionworker

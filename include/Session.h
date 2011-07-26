@@ -17,14 +17,20 @@
  #define SOCKETCONNRESET  WSAECONNRESET
  #define LASTERROR() WSAGetLastError()
 #else
- #include <unistd.h>
- #include <netdb.h>
- #include <netinet/in.h>
+ #include <iostream>
  #include <sys/types.h>
  #include <sys/socket.h>
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
+ #include <unistd.h>
+ #include <string>
+ #include <netdb.h>
+ #include <fcntl.h>
 
  #define SOCK int
  #define ADDRLEN socklen_t
+
+ #define INVALID_SOCKET -1
 
  #define SOCKETWOULDBLOCK EAGAIN
 // Is this right? TODO: find proper value for linux

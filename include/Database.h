@@ -6,9 +6,11 @@
 
 #ifdef _WIN32
  #include <windows.h>
+ #include <mysql.h>
+#else
+ #include <mysql/mysql.h>
+ #include <stdlib.h>
 #endif
-
-#include <mysql.h>
 
 struct DBResult: public MYSQL_RES
 {

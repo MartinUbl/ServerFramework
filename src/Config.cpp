@@ -4,10 +4,16 @@
 
 #include <sstream>
 
+#ifndef _WIN32
+ #include <stdio.h>
+ #include <stdlib.h>
+#endif
+
 bool Config::LoadConfig(const char* filename)
 {
     char buf[256];
-    sprintf(buf,"%s\\%s",CONF_PATH,filename);
+    sprintf(buf,"%s%s%s",CONF_PATH,PATH_DIR,filename);
+    sLog->StringOut("Using main config path: %s",buf);
 
     pConfig = fopen(buf,"r");
     if (!pConfig)

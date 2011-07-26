@@ -3,6 +3,10 @@
 
 #ifdef _WIN32
  #include <windows.h>
+#else
+ #include <stdio.h>
+ #include <stdarg.h>
+ #include <cstdlib>
 #endif
 
 #include <iostream>
@@ -80,6 +84,8 @@ void Log::init()
                              coordScreen,
                              &cCharsWritten);
     SetConsoleCursorPosition(hConsole, coordScreen);
+#else
+    cout << "\033[2J\033[1;1H";
 #endif
 
     SetConsoleColor(0);
@@ -87,7 +93,6 @@ void Log::init()
 
 void Log::SetConsoleColor(int32 color)
 {
-//Implementation only for Windows..
 #ifdef _WIN32
     switch (color)
     {
@@ -123,66 +128,36 @@ void Log::SetConsoleColor(int32 color)
                     FOREGROUND_INTENSITY | FOREGROUND_GREEN |
                     FOREGROUND_BLUE);
         break;
-    case 7:    // Black on Gray
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                  BACKGROUND_INTENSITY | BACKGROUND_INTENSITY);
-        break;
-    case 8:    // Black on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                  BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                  BACKGROUND_RED | BACKGROUND_GREEN |
-                  BACKGROUND_BLUE);
-        break;
-    case 9:    // Red on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                  BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                  BACKGROUND_RED | BACKGROUND_GREEN |
-                  BACKGROUND_BLUE | FOREGROUND_RED);
-        break;
-    case 10:    // Green on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                 BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                 BACKGROUND_RED | BACKGROUND_GREEN |
-                 BACKGROUND_BLUE | FOREGROUND_GREEN);
-        break;
-    case 11:    // Yellow on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                 BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                 BACKGROUND_RED | BACKGROUND_GREEN |
-                 BACKGROUND_BLUE | FOREGROUND_RED |
-                 FOREGROUND_GREEN);
-        break;
-    case 12:    // Blue on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                 BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                 BACKGROUND_RED | BACKGROUND_GREEN |
-                 BACKGROUND_BLUE | FOREGROUND_BLUE);
-        break;
-    case 13:    // Magenta on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                 BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                 BACKGROUND_RED | BACKGROUND_GREEN |
-                 BACKGROUND_BLUE | FOREGROUND_RED |
-                 FOREGROUND_BLUE);
-        break;
-    case 14:    // Cyan on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                 BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                 BACKGROUND_RED | BACKGROUND_GREEN |
-                 BACKGROUND_BLUE | FOREGROUND_GREEN |
-                 FOREGROUND_BLUE);
-        break;
-    case 15:    // White on White
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
-                BACKGROUND_INTENSITY | FOREGROUND_INTENSITY |
-                BACKGROUND_RED | BACKGROUND_GREEN |
-                BACKGROUND_BLUE | FOREGROUND_RED |
-                FOREGROUND_GREEN | FOREGROUND_BLUE);
-        break;
     default:    // White on Black
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),
                 FOREGROUND_INTENSITY | FOREGROUND_RED |
                 FOREGROUND_GREEN | FOREGROUND_BLUE);
+        break;
+    }
+#else
+    switch (color)
+    {
+    case 0:
+    default:
+        cout << "\033[01;37m";
+        break;
+    case 1:
+        cout << "\033[22;31m";
+        break;
+    case 2:
+        cout << "\033[22;32m";
+        break;
+    case 3:
+        cout << "\033[01;33m";
+        break;
+    case 4:
+        cout << "\033[22;34m";
+        break;
+    case 5:
+        cout << "\033[22;35m";
+        break;
+    case 6:
+        cout << "\033[22;36m";
         break;
     }
 #endif

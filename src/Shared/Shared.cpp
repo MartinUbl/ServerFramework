@@ -1,5 +1,6 @@
 #include <iostream> // Because of standart (std) functions
-#include "Shared.h"
+#include <string.h>
+#include "Shared/Shared.h"
 
 /*
  mstrcmp

@@ -19,20 +19,20 @@ void Timer::Worker()
 {
     sLog->StaticOut("Timer thread running");
     sApp->ThreadStatus.timer = true;
-    uint64 last = (uint64)clock();
+    uint64 last = (uint64)(clock() / CLOCK_MOD);
     uint32 diff;
     std::list<TimerRecord>::iterator itr;
 
     while(1)
     {
-        diff = (uint32)((uint64)clock()-last);
+        diff = (uint32)((uint64)(clock() / CLOCK_MOD)-last);
         if (!timedEvents.empty())
         {
             for (itr = timedEvents.begin(); itr != timedEvents.end();)
             {
                 if ((*itr).Handler)
                 {
-                    diff = (uint32)((uint64)clock()-last);
+                    diff = (uint32)((uint64)(clock() / CLOCK_MOD)-last);
                     if ((*itr).actualTime <= diff)
                     {
                         (*itr).Handler((*itr).param1,(*itr).param2,(*itr).param3,(*itr).param4);
@@ -49,7 +49,7 @@ void Timer::Worker()
             }
         }
 
-        last = (uint64)clock();
+        last = (uint64)(clock() / CLOCK_MOD);
 
         // Some waiting time, could be increased if needed
         boost::this_thread::sleep(boost::posix_time::milliseconds(10));

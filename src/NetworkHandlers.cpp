@@ -22,7 +22,7 @@ void Session::SendPacket(Client* pClient, SmartPacket* data)
     SendPacket(pClient->m_socket, data);
 }
 
-void Session::SendPacket(SOCKET socket, SmartPacket *data)
+void Session::SendPacket(SOCK socket, SmartPacket *data)
 {
     //Total storage size + 4 bytes for opcode + 4 bytes for size
     size_t psize = data->GetSize() + 4 + 4;

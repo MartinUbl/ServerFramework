@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include "Shared.h"
+#include "Shared/Shared.h"
 
 typedef long int64;
 typedef int int32;
@@ -17,12 +17,30 @@ typedef unsigned char uint8;
 #pragma warning(disable:4996) // This function or variable may be unsafe
 #pragma warning(disable:4244) // Conversion from T1 to T2, possible loss of data
 
-#ifdef _DEBUG
- #define DATA_PATH "..\\..\\data"
- #define CONF_PATH "..\\..\\config"
+#ifdef _WIN32
+ #define PATH_DIR "\\"
+ #define CLOCK_MOD 1
 #else
- #define DATA_PATH ".\\data"
- #define CONF_PATH "."
+ #define PATH_DIR "/"
+ #define CLOCK_MOD CLOCKS_PER_SEC
+#endif
+
+#ifdef _DEBUG
+ #ifdef _WIN32
+  #define DATA_PATH "..\\..\\data"
+  #define CONF_PATH "..\\..\\config"
+ #else
+  #define DATA_PATH "../../data"
+  #define CONF_PATH "../../config"
+ #endif
+#else
+ #ifdef _WIN32
+  #define DATA_PATH ".\\data"
+  #define CONF_PATH "."
+ #else
+  #define DATA_PATH "./data"
+  #define CONF_PATH "."
+ #endif
 #endif
 
 #endif
