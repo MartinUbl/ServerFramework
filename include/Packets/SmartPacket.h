@@ -1,3 +1,11 @@
+/*                                         *
+*            Server Framework              *
+*                                          *
+*    Developed by: Cmaranec (Kennny)       *
+*                                          *
+*    Copyright (c) 2011                    *
+*                                          */
+
 #ifndef __SMARTPACKET_H_
 #define __SMARTPACKET_H_
 

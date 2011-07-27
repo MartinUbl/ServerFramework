@@ -1,3 +1,11 @@
+/*                                         *
+*            Server Framework              *
+*                                          *
+*    Developed by: Cmaranec (Kennny)       *
+*                                          *
+*    Copyright (c) 2011                    *
+*                                          */
+
 #ifndef __TIMER_H_
 #define __TIMER_H_
 

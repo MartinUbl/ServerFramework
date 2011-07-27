@@ -1,3 +1,11 @@
+/*                                         *
+*            Server Framework              *
+*                                          *
+*    Developed by: Cmaranec (Kennny)       *
+*                                          *
+*    Copyright (c) 2011                    *
+*                                          */
+
 #include <iostream> // Because of standart (std) functions
 #include <string.h>
 #include "Shared/Shared.h"

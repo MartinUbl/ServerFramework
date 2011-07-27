@@ -1,3 +1,11 @@
+/*                                         *
+*            Server Framework              *
+*                                          *
+*    Developed by: Cmaranec (Kennny)       *
+*                                          *
+*    Copyright (c) 2011                    *
+*                                          */
+
 #ifndef __GLOBAL_H_
 #define __GLOBAL_H_
 
